@@ -19,15 +19,16 @@ public class BookRepository {
     }
 
     public int save(Book book) {
-        String sql = "INSERT INTO Book (title, author, year) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Book (id, title, author, year) VALUES (?, ?, ?, ?)";
         return jdbcTemplate.update(sql,
+                book.getId(),
                 book.getTitle(),
                 book.getAuthor(),
                 book.getYear());
     }
 
     public int update(Book book) {
-        String sql = "UPDATE Book SET title = ?, author = ?, year = ?, active = ? WHERE id = ?";
+        String sql = "UPDATE Book SET title = ?, author = ?, year = ? WHERE id = ?";
         return jdbcTemplate.update(sql,
                 book.getTitle(),
                 book.getAuthor(),

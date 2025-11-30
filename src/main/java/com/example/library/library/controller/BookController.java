@@ -1,7 +1,7 @@
 package com.example.library.library.controller;
 
 import com.example.library.library.entity.Book;
-import com.example.library.library.repository.BookRepository;
+import com.example.library.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,42 +12,41 @@ import java.util.Optional;
 @RequestMapping("/api/books")
 public class BookController {
 
-    private final BookRepository bookRepositor;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(BookRepository bookRepositor) {
-        this.bookRepositor = bookRepositor;
+    public BookController(BookService bookService) {
+        this.bookService = bookService;
     }
 
     // GET /api/books
     @GetMapping
     public List<Book> findAll() {
-        return bookRepositor.findAll();
+        return bookService.findAll();
     }
 
     // GET /api/books/{id}
     @GetMapping("/{id}")
     public Book findById(@PathVariable int id) {
-        Optional<Book> b = bookRepositor.findById(id);
+        Optional<Book> b = bookService.findById(id);
         return b.orElse(null);
     }
 
     // POST /api/books
     @PostMapping
     public int save(@RequestBody Book book) {
-        return bookRepositor.save(book);
+        return bookService.save(book);
     }
 
     // PUT /api/books/{id}
     @PutMapping("/{id}")
     public int update(@PathVariable int id, @RequestBody Book book) {
-        book.setId(id);
-        return bookRepositor.update(book);
+        return bookService.update(id, book);
     }
 
     // DELETE /api/books/{id}
     @DeleteMapping("/{id}")
     public int hardDelete(@PathVariable int id) {
-        return bookRepositor.hardDelete(id);
+        return bookService.hardDelete(id);
     }
 }
